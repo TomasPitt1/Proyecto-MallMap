@@ -16,6 +16,9 @@ const initialState: StoresState = {
   mallId: "mall1", // por ahora fijo
 };
 
+// --------------------
+// Async thunk
+// --------------------
 export const loadStores = createAsyncThunk(
   "stores/loadStores",
   async (mallId: string) => {
@@ -24,6 +27,9 @@ export const loadStores = createAsyncThunk(
   }
 );
 
+// --------------------
+// Slice
+// --------------------
 const storesSlice = createSlice({
   name: "stores",
   initialState,
@@ -48,5 +54,29 @@ const storesSlice = createSlice({
 
 export default storesSlice.reducer;
 
+// --------------------
+// Selectores
+// --------------------
+
+// Selector por ID (detalle de local)
 export const selectStoreById = (id: string) => (state: RootState) =>
   state.stores.items.find((store) => store.id === id);
+
+// Selector filtrado (buscador + filtros)
+export const selectFilteredStores = (state: RootState) => {
+  const { items } = state.stores;
+  const { searchQuery, category, floor } = state.app;
+
+  const query = searchQuery.trim().toLowerCase();
+
+  return items.filter((store) => {
+    const matchesQuery =
+      query.length === 0 || store.name.toLowerCase().includes(query);
+
+    const matchesCategory = !category || store.category === category;
+
+    const matchesFloor = !floor || store.floor === floor;
+
+    return matchesQuery && matchesCategory && matchesFloor;
+  });
+};

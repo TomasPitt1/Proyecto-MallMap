@@ -8,14 +8,21 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import SearchBar from "../../components/common/SearchBar";
+import StoreCard from "../../components/stores/StoreCard";
 import type { AppDispatch, RootState } from "../../store";
-import { loadStores } from "../../store/slices/storesSlice";
+import { setSearchQuery } from "../../store/slices/appSlice";
+import {
+  loadStores,
+  selectFilteredStores,
+} from "../../store/slices/storesSlice";
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
-  const { items, loading, error, mallId } = useSelector(
-    (s: RootState) => s.stores
-  );
+
+  const { loading, error, mallId } = useSelector((s: RootState) => s.stores);
+  const searchQuery = useSelector((s: RootState) => s.app.searchQuery);
+  const filtered = useSelector(selectFilteredStores);
 
   useEffect(() => {
     dispatch(loadStores(mallId));
@@ -50,30 +57,33 @@ export default function HomeScreen() {
   }
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: 16, gap: 12 }}>
+      <SearchBar
+        value={searchQuery}
+        onChangeText={(t) => dispatch(setSearchQuery(t))}
+        placeholder="Buscar local..."
+      />
+
+      <Pressable
+        onPress={() => router.push("/modal")}
+        style={{
+          padding: 12,
+          borderRadius: 12,
+          borderWidth: 1,
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontWeight: "700" }}>Filtros</Text>
+      </Pressable>
+
       <FlatList
-        data={items}
+        data={filtered}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        renderItem={({ item }) => (
-          <Pressable
-            onPress={() => router.push(`/store/${item.id}`)}
-            style={{
-              borderWidth: 1,
-              borderRadius: 12,
-              padding: 14,
-              gap: 4,
-            }}
-          >
-            <Text style={{ fontSize: 16, fontWeight: "700" }}>{item.name}</Text>
-            <Text style={{ opacity: 0.8 }}>
-              {item.category} • Piso {item.floor} • {item.zone}
-            </Text>
-          </Pressable>
-        )}
+        renderItem={({ item }) => <StoreCard store={item} />}
         ListEmptyComponent={
           <View style={{ paddingTop: 40, alignItems: "center" }}>
-            <Text style={{ opacity: 0.7 }}>No hay locales cargados.</Text>
+            <Text style={{ opacity: 0.7 }}>No hay resultados.</Text>
           </View>
         }
       />
