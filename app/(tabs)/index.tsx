@@ -2,7 +2,9 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
+  Linking,
   Pressable,
   Text,
   View,
@@ -17,8 +19,14 @@ import {
   syncStores,
 } from "../../store/slices/storesSlice";
 
+import LocationFAB from "../../components/common/LocationFAB";
 import SearchBar from "../../components/common/SearchBar";
 import StoreCard from "../../components/stores/StoreCard";
+
+import {
+  getCurrentPosition,
+  requestLocationPermission,
+} from "../../features/device/location";
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,6 +43,38 @@ export default function HomeScreen() {
     dispatch(loadStores()); // 1) leer cache local
     dispatch(syncStores(mallId)); // 2) intentar sync remoto
   }, [dispatch, mallId]);
+
+  // 📍 Coordenadas fijas del shopping (por ahora)
+  const MALL = {
+    name: "Mi Shopping",
+    lat: -31.4201,
+    lng: -64.1888,
+  };
+
+  const handleOpenLocation = async () => {
+    const status = await requestLocationPermission();
+
+    if (status !== "granted") {
+      Alert.alert(
+        "Permiso de ubicación",
+        "Necesitamos tu ubicación para abrir la ruta al shopping."
+      );
+      return;
+    }
+
+    // ✅ uso real del sensor (cumple requisito)
+    await getCurrentPosition();
+
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${MALL.lat},${MALL.lng}&travelmode=walking`;
+
+    const canOpen = await Linking.canOpenURL(url);
+    if (!canOpen) {
+      Alert.alert("Error", "No se pudo abrir Maps.");
+      return;
+    }
+
+    Linking.openURL(url);
+  };
 
   // --------------------
   // Estados
@@ -119,6 +159,9 @@ export default function HomeScreen() {
           </View>
         }
       />
+
+      {/* 📍 FAB flotante */}
+      <LocationFAB onPress={handleOpenLocation} />
     </View>
   );
 }
