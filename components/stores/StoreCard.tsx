@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import { memo, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import type { Store } from "../../api/firebase/rtdb";
@@ -42,23 +42,64 @@ function StoreCard({ store }: Props) {
       style={{
         borderWidth: 1,
         borderRadius: 12,
-        padding: 14,
+        padding: 12,
         position: "relative",
+        backgroundColor: "white",
       }}
     >
-      {/* 🧭 Área tocable para ir al detalle */}
+      {/* Contenido horizontal: imagen + texto */}
       <Pressable
         onPress={() => router.push(`/store/${store.id}` as any)}
-        style={{ paddingRight: 56, gap: 6 }}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 12,
+          paddingRight: 56, // deja lugar para el corazón
+        }}
       >
-        <Text style={{ fontSize: 16, fontWeight: "700" }}>{store.name}</Text>
+        {/* 🖼️ Thumbnail */}
+        <View
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 12,
+            overflow: "hidden",
+            borderWidth: 1,
+            backgroundColor: "#f2f2f2",
+          }}
+        >
+          {store.imageUrl ? (
+            <Image
+              source={{ uri: store.imageUrl }}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="cover"
+            />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ opacity: 0.6 }}>🏬</Text>
+            </View>
+          )}
+        </View>
 
-        <Text style={{ opacity: 0.8 }}>
-          {store.category} • Piso {store.floor} • {store.zone}
-        </Text>
+        {/* 📝 Texto */}
+        <View style={{ flex: 1, gap: 4 }}>
+          <Text style={{ fontSize: 16, fontWeight: "700" }} numberOfLines={1}>
+            {store.name}
+          </Text>
+
+          <Text style={{ opacity: 0.8 }} numberOfLines={2}>
+            {store.category} • Piso {store.floor} • {store.zone}
+          </Text>
+        </View>
       </Pressable>
 
-      {/* ❤️ Botón arriba de todo */}
+      {/* ❤️ Botón favorito */}
       <Pressable
         onPress={onToggleFav}
         disabled={busy}
@@ -74,8 +115,6 @@ function StoreCard({ store }: Props) {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "white",
-          zIndex: 999,
-          elevation: 10,
           opacity: busy ? 0.6 : 1,
         }}
       >

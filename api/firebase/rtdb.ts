@@ -7,6 +7,7 @@ export type Store = {
   category: string;
   floor: string;
   zone: string;
+  imageUrl?: string;
 };
 
 export const fetchStoresByMallId = async (mallId: string): Promise<Store[]> => {
