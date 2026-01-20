@@ -15,10 +15,14 @@ export const fetchStoresByMallId = async (mallId: string): Promise<Store[]> => {
 
   if (!snapshot.exists()) return [];
 
-  const data = snapshot.val() as Record<string, Omit<Store, "id">>;
+  const data = snapshot.val() as Record<string, any>;
 
   return Object.entries(data).map(([id, value]) => ({
     id,
-    ...value,
+    name: String(value?.name ?? ""),
+    category: String(value?.category ?? ""),
+    floor: String(value?.floor ?? ""),
+    zone: String(value?.zone ?? ""),
+    imageUrl: value?.imageUrl ? String(value.imageUrl) : undefined,
   }));
 };

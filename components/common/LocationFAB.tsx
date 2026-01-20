@@ -18,8 +18,8 @@ export default function LocationFAB({ onPress }: Props) {
         backgroundColor: "black",
         alignItems: "center",
         justifyContent: "center",
-        elevation: 10, // Android
-        zIndex: 999, // iOS
+        elevation: 10,
+        zIndex: 999,
       }}
       hitSlop={14}
     >

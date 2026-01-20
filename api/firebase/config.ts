@@ -15,8 +15,6 @@ const firebaseConfig = {
 
 export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// ✅ Auth SIN react-native persistence (Expo lo maneja bien igual)
 export const auth = getAuth(app);
 
-// ✅ Realtime Database
 export const db = getDatabase(app);

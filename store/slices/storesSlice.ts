@@ -5,8 +5,8 @@ import { getLocalStores, saveStores } from "../../database/storesRepository";
 
 type StoresState = {
   items: Store[];
-  loading: boolean; // loading de "leer cache"
-  syncing: boolean; // syncing remoto
+  loading: boolean;
+  syncing: boolean;
   error: string | null;
   mallId: string;
   lastSyncAt: number | null;
@@ -21,20 +21,18 @@ const initialState: StoresState = {
   lastSyncAt: null,
 };
 
-// 1) Cargar desde SQLite (offline-first)
 export const loadStores = createAsyncThunk("stores/loadStores", async () => {
   const local = await getLocalStores();
   return local;
 });
 
-// 2) Sync desde Firebase -> guarda SQLite -> actualiza Redux
 export const syncStores = createAsyncThunk(
   "stores/syncStores",
   async (mallId: string) => {
     const remote = await fetchStoresByMallId(mallId);
     await saveStores(remote);
     return remote;
-  }
+  },
 );
 
 const storesSlice = createSlice({
@@ -43,7 +41,7 @@ const storesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // loadStores (cache)
+
       .addCase(loadStores.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -57,7 +55,6 @@ const storesSlice = createSlice({
         state.error = action.error.message ?? "Error leyendo cache (SQLite)";
       })
 
-      // syncStores (remoto)
       .addCase(syncStores.pending, (state) => {
         state.syncing = true;
         state.error = null;
@@ -69,7 +66,7 @@ const storesSlice = createSlice({
       })
       .addCase(syncStores.rejected, (state, action) => {
         state.syncing = false;
-        // si falla remoto, NO rompemos el offline: dejamos items como estén
+
         state.error =
           action.error.message ?? "No se pudo sincronizar (Firebase)";
       });
@@ -77,8 +74,6 @@ const storesSlice = createSlice({
 });
 
 export default storesSlice.reducer;
-
-// --- Selectores ---
 
 export const selectStoreById = (id: string) => (state: RootState) =>
   state.stores.items.find((store) => store.id === id);

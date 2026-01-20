@@ -7,13 +7,12 @@ export default function StoreDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const store = useSelector(selectStoreById(id!));
 
-  // 👉 Header: título y back
   return (
     <>
       <Stack.Screen
         options={{
           title: "Detalle del local",
-          headerBackTitle: "Locales", // en iOS
+          headerBackTitle: "Locales",
         }}
       />
 

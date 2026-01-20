@@ -5,7 +5,6 @@ export const isSQLiteSupported = true;
 export const db = SQLite.openDatabaseSync("mallmap.db");
 
 export const initDB = () => {
-  // tabla stores (ya la tenés)
   db.execSync(`
     CREATE TABLE IF NOT EXISTS stores (
       id TEXT PRIMARY KEY NOT NULL,
@@ -16,7 +15,6 @@ export const initDB = () => {
     );
   `);
 
-  // ⭐ tabla favorites
   db.execSync(`
     CREATE TABLE IF NOT EXISTS favorites (
       userId TEXT NOT NULL,

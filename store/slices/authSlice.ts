@@ -4,7 +4,7 @@ type AuthState = {
   isAuthenticated: boolean;
   uid: string | null;
   email: string | null;
-  isReady: boolean; // ✅ cuando Firebase ya respondió al menos 1 vez
+  isReady: boolean;
 };
 
 const initialState: AuthState = {
@@ -20,7 +20,7 @@ const authSlice = createSlice({
   reducers: {
     setUser: (
       state,
-      action: PayloadAction<{ uid: string; email: string | null }>
+      action: PayloadAction<{ uid: string; email: string | null }>,
     ) => {
       state.isAuthenticated = true;
       state.uid = action.payload.uid;

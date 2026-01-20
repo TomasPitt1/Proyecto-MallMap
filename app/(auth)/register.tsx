@@ -17,9 +17,6 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
 
   const onRegister = async () => {
-    console.log("CLICK register", email, password.length, confirm.length);
-    Alert.alert("Debug", "Se ejecutó onRegister ✅");
-
     const cleanEmail = email.trim();
 
     if (!cleanEmail || !password || !confirm) {
@@ -40,7 +37,6 @@ export default function RegisterScreen() {
     try {
       setLoading(true);
       await firebaseRegister(cleanEmail, password);
-      // No navegamos manualmente: onAuthStateChanged + Redirect se encargan
     } catch (e: any) {
       Alert.alert("Error al registrarse", e?.message ?? "Error desconocido");
     } finally {

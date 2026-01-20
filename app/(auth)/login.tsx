@@ -27,9 +27,6 @@ export default function LoginScreen() {
     try {
       setLoading(true);
       await firebaseLogin(cleanEmail, password);
-      // ✅ No navegamos manualmente:
-      // el listener onAuthStateChanged (en app/_layout.tsx) setea el usuario
-      // y el route guard te manda a (tabs).
     } catch (e: any) {
       Alert.alert("Error al iniciar sesión", e?.message ?? "Error desconocido");
     } finally {

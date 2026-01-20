@@ -16,7 +16,7 @@ function StoreCard({ store }: Props) {
 
   const uid = useSelector((s: RootState) => s.auth.uid);
   const isFav = useSelector((s: RootState) =>
-    s.favorites.ids.includes(store.id)
+    s.favorites.ids.includes(store.id),
   );
 
   const [busy, setBusy] = useState(false);
@@ -47,17 +47,15 @@ function StoreCard({ store }: Props) {
         backgroundColor: "white",
       }}
     >
-      {/* Contenido horizontal: imagen + texto */}
       <Pressable
         onPress={() => router.push(`/store/${store.id}` as any)}
         style={{
           flexDirection: "row",
           alignItems: "center",
           gap: 12,
-          paddingRight: 56, // deja lugar para el corazón
+          paddingRight: 56,
         }}
       >
-        {/* 🖼️ Thumbnail */}
         <View
           style={{
             width: 64,
@@ -87,7 +85,6 @@ function StoreCard({ store }: Props) {
           )}
         </View>
 
-        {/* 📝 Texto */}
         <View style={{ flex: 1, gap: 4 }}>
           <Text style={{ fontSize: 16, fontWeight: "700" }} numberOfLines={1}>
             {store.name}
@@ -99,7 +96,6 @@ function StoreCard({ store }: Props) {
         </View>
       </Pressable>
 
-      {/* ❤️ Botón favorito */}
       <Pressable
         onPress={onToggleFav}
         disabled={busy}
@@ -118,7 +114,13 @@ function StoreCard({ store }: Props) {
           opacity: busy ? 0.6 : 1,
         }}
       >
-        <Text style={{ fontWeight: "700", fontSize: 16 }}>
+        <Text
+          style={{
+            fontWeight: "700",
+            fontSize: 20,
+            color: isFav ? "#E53935" : "#333",
+          }}
+        >
           {isFav ? "♥" : "♡"}
         </Text>
       </Pressable>

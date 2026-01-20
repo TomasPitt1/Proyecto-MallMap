@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { useEffect } from "react";
+import { View } from "react-native";
 import { Provider, useDispatch } from "react-redux";
 
 import type { AppDispatch } from "../store";
@@ -14,12 +15,10 @@ import { loadFavorites, syncFavorites } from "../store/slices/favoritesSlice";
 function RootNavigator() {
   const dispatch = useDispatch<AppDispatch>();
 
-  // 🗄️ Inicializar SQLite (una sola vez)
   useEffect(() => {
     initDB();
   }, []);
 
-  // 🔐 Listener de Firebase Auth
   useEffect(() => {
     const unsub = listenAuth((user) => {
       if (user) {
@@ -27,10 +26,9 @@ function RootNavigator() {
           setUser({
             uid: user.uid,
             email: user.email,
-          })
+          }),
         );
 
-        // ❤️ Favoritos: cargar cache + sincronizar remoto
         dispatch(loadFavorites(user.uid));
         dispatch(syncFavorites(user.uid));
       } else {
@@ -42,15 +40,19 @@ function RootNavigator() {
   }, [dispatch]);
 
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="modal"
-        options={{ presentation: "modal", headerShown: false }}
-      />
-    </Stack>
+    <View style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "#F5F5F5" },
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      </Stack>
+    </View>
   );
 }
 

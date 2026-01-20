@@ -33,7 +33,7 @@ export const loadFavorites = createAsyncThunk(
   async (uid: string) => {
     const ids = await getFavoriteIds(uid);
     return ids;
-  }
+  },
 );
 
 export const toggleFavorite = createAsyncThunk(
@@ -47,13 +47,12 @@ export const toggleFavorite = createAsyncThunk(
 
     const ids = await getFavoriteIds(uid);
     return ids;
-  }
+  },
 );
 
 export const syncFavorites = createAsyncThunk(
   "favorites/syncFavorites",
   async (uid: string) => {
-    // 1) empujar pendientes locales
     const pending = await getPendingFavoriteRows(uid);
     for (const row of pending) {
       if (row.isFav === 1) await setRemoteFavorite(uid, row.storeId);
@@ -61,13 +60,10 @@ export const syncFavorites = createAsyncThunk(
     }
     await markFavoritesSynced(uid);
 
-    // 2) traer remoto (opcional: podríamos mergear, por ahora dejamos local como fuente)
     const _remote = await fetchRemoteFavoriteIds(uid);
-    // si querés, en el futuro mergeamos remoto->local
 
-    // 3) devolver local actual
     return await getFavoriteIds(uid);
-  }
+  },
 );
 
 const favoritesSlice = createSlice({
