@@ -2,7 +2,6 @@ import { router } from "expo-router";
 import { memo, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
 import type { Store } from "../../api/firebase/rtdb";
 import type { AppDispatch, RootState } from "../../store";
 import { toggleFavorite } from "../../store/slices/favoritesSlice";

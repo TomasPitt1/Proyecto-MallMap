@@ -1,18 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "..";
-
-import {
-  fetchRemoteFavoriteIds,
-  removeRemoteFavorite,
-  setRemoteFavorite,
-} from "../../api/firebase/favorites";
-
-import {
-  getFavoriteIds,
-  getPendingFavoriteRows,
-  markFavoritesSynced,
-  setFavoriteLocal,
-} from "../../database/favoritesRepository";
+import { fetchRemoteFavoriteIds, removeRemoteFavorite, setRemoteFavorite } from "../../api/firebase/favorites";
+import { getFavoriteIds, getPendingFavoriteRows, markFavoritesSynced, setFavoriteLocal } from "../../database/favoritesRepository";
 
 type FavoritesState = {
   ids: string[];

@@ -1,50 +1,111 @@
-# Welcome to your Expo app 👋
+📍 MallMap
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+MallMap es una aplicación mobile desarrollada con React Native + Expo que permite a los usuarios explorar locales dentro de un shopping, ver su ubicación, marcarlos como favoritos y acceder a funcionalidades offline.
 
-## Get started
+El objetivo principal de la app es facilitar la búsqueda de locales dentro de un shopping, evitando la confusión habitual sobre pisos, zonas o si un local existe o no.
 
-1. Install dependencies
 
-   ```bash
-   npm install
-   ```
+🚀 Funcionalidades principales:
 
-2. Start the app
+🔐 Autenticación de usuarios con Firebase Authentication
 
-   ```bash
-   npx expo start
-   ```
+🏬 Listado de locales por shopping
 
-In the output, you'll find options to open the app in a
+🔎 Búsqueda de locales por nombre
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+❤️ Sistema de favoritos:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Persistencia local (SQLite)
 
-## Get a fresh project
+- Sincronización con Firebase Realtime Database
 
-When you're ready, run:
+📍 Ubicación del shopping:
 
-```bash
+- Acceso a Google Maps desde la app
 
-```
+📴 Modo offline:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- Los datos de locales se guardan localmente
 
-## Learn more
+- La app funciona sin conexión
 
-To learn more about developing your project with Expo, look at the following resources:
+🧭 Detalle de local:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Categoría
 
-## Join the community
+- Piso
 
-Join our community of developers creating universal apps.
+- Zona
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Imagen representativa
+
+
+La idea surge a partir de una problemática real:
+
+“Cuando uno visita un shopping, suele ser difícil encontrar rápidamente en qué piso o zona se encuentra un local.”
+
+MallMap busca resolver esto ofreciendo una interfaz clara, simple y optimizada para dispositivos móviles.
+
+
+
+🛠️ Tecnologías utilizadas
+
+- React Native
+
+- Expo
+
+- Expo Router
+
+- Redux Toolkit
+
+- Firebase
+
+- Authentication
+
+- Realtime Database
+
+- SQLite (expo-sqlite)
+
+- TypeScript
+
+
+
+🗂️ Estructura del proyecto
+
+/app
+├── (auth) → Pantallas de autenticación
+├── (tabs) → Navegación principal
+├── store/[id].tsx → Detalle de local
+/api
+└── firebase → Configuración y servicios Firebase
+/database
+└── sqlite.ts → Persistencia local (offline)
+/store
+├── slices → Redux slices
+└── index.ts → Store principal
+/components
+├── common → Componentes reutilizables
+└── stores → Componentes de locales
+
+
+
+📍 Permisos del dispositivo
+
+La app utiliza:
+Ubicación (Location)
+
+- Para abrir Google Maps con la ubicación del shopping
+
+
+📦 Persistencia de datos
+🔸 Firebase Realtime Database
+
+- Locales del shopping
+
+- Favoritos por usuario
+
+
+👤 Autor
+
+Proyecto desarrollado por Tomás Pitt
+Curso Desarrollo de Aplicaciones – CoderHouse

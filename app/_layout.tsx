@@ -2,13 +2,10 @@ import { Stack } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
 import { Provider, useDispatch } from "react-redux";
-
-import type { AppDispatch } from "../store";
-import { store } from "../store";
-
 import { listenAuth } from "../api/firebase/auth";
 import { initDB } from "../database/sqlite";
-
+import type { AppDispatch } from "../store";
+import { store } from "../store";
 import { clearUser, setUser } from "../store/slices/authSlice";
 import { loadFavorites, syncFavorites } from "../store/slices/favoritesSlice";
 

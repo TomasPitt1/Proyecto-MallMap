@@ -1,32 +1,14 @@
 import { router } from "expo-router";
 import { useEffect } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  Linking,
-  Pressable,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, FlatList, Linking, Pressable, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
-import type { AppDispatch, RootState } from "../../store";
-import { setSearchQuery } from "../../store/slices/appSlice";
-import {
-  loadStores,
-  selectFilteredStores,
-  syncStores,
-} from "../../store/slices/storesSlice";
-
 import LocationFAB from "../../components/common/LocationFAB";
 import SearchBar from "../../components/common/SearchBar";
 import StoreCard from "../../components/stores/StoreCard";
-
-import {
-  getCurrentPosition,
-  requestLocationPermission,
-} from "../../features/device/location";
+import { getCurrentPosition, requestLocationPermission } from "../../features/device/location";
+import type { AppDispatch, RootState } from "../../store";
+import { setSearchQuery } from "../../store/slices/appSlice";
+import { loadStores, selectFilteredStores, syncStores } from "../../store/slices/storesSlice";
 
 export default function HomeScreen() {
   const dispatch = useDispatch<AppDispatch>();
